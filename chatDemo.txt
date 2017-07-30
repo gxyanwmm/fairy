@@ -7,7 +7,7 @@ public class send implements Runnable {
 	{
 		this.ds = ds;
 	}
-	public void run() {
+	public void run() {+++++++++++++++++++++++
 		// TODO Auto-generated method stub
 		BufferedReader bfr = new BufferedReader(new InputStreamReader(System.in));
 		String line = null;
