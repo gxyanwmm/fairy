@@ -1,4 +1,4 @@
-import java.IO.*;
+import java.IO.*;//wmmxyg
 import java.net.*;
 public class send implements Runnable {
 
