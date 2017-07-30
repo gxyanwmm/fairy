@@ -1,0 +1,74 @@
+import java.IO.*;
+import java.net.*;
+public class send implements Runnable {
+
+	private DatagramSocket ds;
+	public send(DatagramSocket ds)
+	{
+		this.ds = ds;
+	}
+	public void run() {
+		// TODO Auto-generated method stub
+		BufferedReader bfr = new BufferedReader(new InputStreamReader(System.in));
+		String line = null;
+		try {
+			while((line = bfr.readLine()) != null){
+				if(line.equals("886"))
+					break;
+				byte[] buf = new byte[1024];
+				buf = line.getBytes();
+				DatagramPacket dp = new DatagramPacket(buf,buf.length,InetAddress.getByName("113.251.171.145"),10000);
+				ds.close();			
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+
+}
+
+
+public class service implements Runnable{
+	
+	private DatagramSocket ds;
+	public service(DatagramSocket ds)
+	{
+		this.ds = ds;
+	}
+	public void run() {
+		// TODO Auto-generated method stub
+		BufferedReader bfr = new BufferedReader(new InputStreamReader(System.in));
+		String line = null;
+		try {
+			while(true){
+				byte[] buf = new byte[1024];
+				DatagramPacket dp = new DatagramPacket(buf,buf.length);
+				ds.receive(dp);
+				String ip = dp.getAddress().getHostAddress();
+				String data = new String(dp.getData(),0,dp.getLength());
+				System.out.println("IP:"+ip+"Data:"+data);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}
+
+public static void mian(String[] args)
+{
+		
+	DatagramSocket sendds = new DatagramSocket();
+	DatagramSocket receds = new DatagramSocket(10000);
+	new thread(new send(sendds)).start();
+	new thread(new service(receds)).start();
+
+
+
+}
